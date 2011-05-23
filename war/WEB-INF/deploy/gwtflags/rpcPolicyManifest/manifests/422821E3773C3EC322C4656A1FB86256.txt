@@ -1,0 +1,2 @@
+serviceClass: com.scrontch.flags.client.GreetingService
+path: CFCD85BAC13D373BE6116521FE9A0D32.gwt.rpc
