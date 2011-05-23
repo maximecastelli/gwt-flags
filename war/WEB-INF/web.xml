@@ -20,5 +20,13 @@
   <welcome-file-list>
     <welcome-file>GwtFlags.html</welcome-file>
   </welcome-file-list>
+  <servlet>
+  	<servlet-name>FlagService</servlet-name>
+  	<servlet-class>com.scrontch.flags.server.FlagServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FlagService</servlet-name>
+  	<url-pattern>/gwtflags/FlagService</url-pattern>
+  </servlet-mapping>
 
 </web-app>
