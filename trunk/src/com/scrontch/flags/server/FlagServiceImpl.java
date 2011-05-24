@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.regex.Matcher;
 
 @SuppressWarnings("serial")
 public class FlagServiceImpl extends RemoteServiceServlet implements FlagService {
@@ -245,32 +246,19 @@ public class FlagServiceImpl extends RemoteServiceServlet implements FlagService
 	
 	@Override
 	public String getRandomFlag() {
-/*
 		FlagDesign design = getRandomDesign();
 		FlagOverlay overlay = getRandomOverlay(design);
 		FlagColor color1 = colors.get(rand.nextInt(colors.size()));
 		FlagColor color2 = colors.get(rand.nextInt(colors.size()));
 		FlagColor color3 = colors.get(rand.nextInt(colors.size()));
 		FlagColor color4 = colors.get(rand.nextInt(colors.size()));
-		
-		String svgString = 
-			"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" x=\"0\" y=\"0\" width=\"360\" height=\"240\">"
-			+ design.svg;
-		
-		// We don't have String.format in Google's JDK
-		svgString.replaceAll("%1\\$s", color1.code);
-		svgString.replaceAll("%2\\$s", color2.code);
-		svgString.replaceAll("%3\\$s", color3.code);
-
-		svgString += overlay.svg;
-		svgString.replaceAll("%1\\$s", color4.code);
+		String svgString =
+			"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" x=\"0\" y=\"0\" width=\"360\" height=\"240\">";
+		svgString += String.format(design.svg, color1.code, color2.code, color3.code);
+		if (overlay != foNone)
+			svgString += String.format(overlay.svg, color4.code);
 		svgString +=  "</svg>";
 		
-		System.out.println("flagServer exit");
-		System.out.println(svgString);
-
 		return svgString;
-*/		
-		return "Hello!";
 	}
 }
