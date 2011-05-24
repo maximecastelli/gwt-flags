@@ -18,4 +18,7 @@ public interface FlagService extends RemoteService {
 			return instance;
 		}
 	}
+
+	String getRandomFlag();
+
 }
