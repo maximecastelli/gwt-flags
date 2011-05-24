@@ -1,6 +1,5 @@
 package com.scrontch.flags.client;
 
-import com.scrontch.flags.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -40,22 +39,13 @@ public class GwtFlags implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		final Button sendButton = new Button("Send");
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
-		final Label errorLabel = new Label();
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
 		RootPanel.get("sendButtonContainer").add(sendButton);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
-
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -86,7 +76,7 @@ public class GwtFlags implements EntryPoint {
 		});
 
 		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler, KeyUpHandler {
+		class MyHandler implements ClickHandler {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
@@ -95,31 +85,12 @@ public class GwtFlags implements EntryPoint {
 			}
 
 			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
-
-			/**
 			 * Send the name from the nameField to the server and wait for a response.
 			 */
 			private void sendNameToServer() {
-				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
-					errorLabel.setText("Please enter at least four characters");
-					return;
-				}
-
-				// Then, we send the input to the server.
 				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer,
+				greetingService.greetServer("Text-to-server",
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
@@ -147,6 +118,5 @@ public class GwtFlags implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
 	}
 }
