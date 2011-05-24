@@ -10,7 +10,24 @@ h1 {
   text-align: center;
 }
 
+.centered {
+  margin: 0px auto;
+  text-align: center;
+  font-size: 16pt;
+}
+
+.flagbg {
+  height: 240px;
+  width: 360px;
+  padding: 4px;
+  margin: 0px auto;
+  text-align: center;
+  background-color:#aaaaaa;
+}
+
 .sendButton {
+  margin: 0px auto;
+  text-align: center;
   display: block;
   font-size: 16pt;
 }
