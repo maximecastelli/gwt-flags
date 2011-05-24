@@ -34,6 +34,8 @@ public class GwtFlags implements EntryPoint {
 	private final FlagServiceAsync flagService = GWT
 			.create(FlagService.class);
 
+	private HTML flagWidget = new HTML("[...]");
+
 	/**
 	 * This is the entry point method.
 	 */
@@ -46,7 +48,8 @@ public class GwtFlags implements EntryPoint {
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("sendButtonContainer").add(sendButton);
-
+		RootPanel.get("flagContainer").add(flagWidget);
+		
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Remote Procedure Call");
@@ -81,13 +84,13 @@ public class GwtFlags implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				sendNameToServer();
+				requestFlag();
 			}
 
 			/**
-			 * Send the name from the nameField to the server and wait for a response.
+			 * Send the request to the server and wait for a response.
 			 */
-			private void sendNameToServer() {
+			private void requestFlag() {
 				sendButton.setEnabled(false);
 				serverResponseLabel.setText("");
 				flagService.getRandomFlag(
@@ -104,13 +107,7 @@ public class GwtFlags implements EntryPoint {
 							}
 
 							public void onSuccess(String result) {
-								dialogBox.setText("Remote Procedure Call");
-								serverResponseLabel
-										.removeStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(result);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
+		           				flagWidget.setHTML(result);							}
 						});
 			}
 		}
