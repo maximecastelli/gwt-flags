@@ -29,10 +29,10 @@ public class GwtFlags implements EntryPoint {
 			+ "connection and try again.";
 
 	/**
-	 * Create a remote service proxy to talk to the server-side Greeting service.
+	 * Create a remote service proxy to talk to the server-side Flag service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final FlagServiceAsync flagService = GWT
+			.create(FlagService.class);
 
 	/**
 	 * This is the entry point method.
@@ -90,7 +90,7 @@ public class GwtFlags implements EntryPoint {
 			private void sendNameToServer() {
 				sendButton.setEnabled(false);
 				serverResponseLabel.setText("");
-				greetingService.greetServer("Text-to-server",
+				flagService.getRandomFlag(
 						new AsyncCallback<String>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
