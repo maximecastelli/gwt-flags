@@ -73,8 +73,6 @@ public class GwtFlags implements EntryPoint {
 		closeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
 			}
 		});
 
@@ -107,7 +105,11 @@ public class GwtFlags implements EntryPoint {
 							}
 
 							public void onSuccess(String result) {
-		           				flagWidget.setHTML(result);							}
+		           				flagWidget.setHTML(result);
+		           				System.out.println("sucess.");
+		        				sendButton.setEnabled(true);
+		        				sendButton.setFocus(true);
+		           			}
 						});
 			}
 		}

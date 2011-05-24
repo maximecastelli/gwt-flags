@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 
 @SuppressWarnings("serial")
 public class FlagServiceImpl extends RemoteServiceServlet implements FlagService {
