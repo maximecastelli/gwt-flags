@@ -31,16 +31,15 @@ public class GwtFlags implements EntryPoint {
 	/**
 	 * Create a remote service proxy to talk to the server-side Flag service.
 	 */
-	private final FlagServiceAsync flagService = GWT
-			.create(FlagService.class);
+	private final FlagServiceAsync flagService = GWT.create(FlagService.class);
 
-	private HTML flagWidget = new HTML("[...]");
+	private HTML flagWidget = new HTML("[Press button]");
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Generate Flag");
+		final Button sendButton = new Button("Generate New Flag");
 
 		// We can add style names to widgets
 		//sendButton.addStyleName("sendButton");
