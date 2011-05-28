@@ -6,13 +6,12 @@ import java.util.ArrayList;
 public class FlagOverlay {
 	String name;
 	String svg;  //SVG source
-	double weight;
-	ArrayList<FlagDivision> incompatible_divisions = new ArrayList<FlagDivision>(); 
+	ArrayList<FlagDivision> incompatible_divisions = new ArrayList<FlagDivision>();
+	ArrayList<FlagSymbolAnchor> anchors = new ArrayList<FlagSymbolAnchor>();
 
 	//Constructor
-	FlagOverlay(String name, String svg/*, double weight*/) {
+	FlagOverlay(String name, String svg) {
 		this.name = name;
 		this.svg = svg;
-//		this.weight = weight;
 	}
 }

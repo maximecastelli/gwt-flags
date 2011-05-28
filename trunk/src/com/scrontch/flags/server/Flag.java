@@ -2,32 +2,35 @@ package com.scrontch.flags.server;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
 public class Flag {
 	FlagDivision division;
-	FlagOverlay overlay;
 	FlagColor color1;
 	FlagColor color2;
 	FlagColor color3;
+	FlagOverlay overlay;
 	FlagColor color4;
+	FlagSymbol symbol;
+	FlagColor color5;
 
 	static Random rand = new Random();
 	static ArrayList<FlagDivision> divisions = new ArrayList<FlagDivision>();
 	static ArrayList<FlagOverlay> overlays = new ArrayList<FlagOverlay>();
 	static ArrayList<FlagColor> colors = new ArrayList<FlagColor>();
+	static ArrayList<FlagSymbol> symbols = new ArrayList<FlagSymbol>();
 	static FlagDivision fdSolid;
 	static FlagOverlay foNone;
+	static FlagSymbol fsNone;
 
 	static HashMap<FlagDivision, Double> division_weight_sums = new HashMap<FlagDivision, Double>();
 
 	static double division_weight_sum = 0;
 	static HashMap<FlagOverlay, Double> overlay_weights = new HashMap<FlagOverlay, Double>();
 
-	/**
-	* Static initialization block.
-	*/
+	//Static initialization block
 	static {
 		fdSolid = new FlagDivision(
 				"solid",
@@ -108,6 +111,7 @@ public class Flag {
 		foNone = new FlagOverlay(
 				"none",
 				"");
+		foNone.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foNone);
 
 		FlagOverlay foBarCross = new FlagOverlay(
@@ -118,6 +122,7 @@ public class Flag {
 		foBarCross.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foBarCross.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foBarCross.incompatible_divisions.add(fdBicolorCheckered);
+		foBarCross.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foBarCross);
 		
 		FlagOverlay foDiagonalBarDown = new FlagOverlay(
@@ -125,6 +130,7 @@ public class Flag {
 				"  <polygon points=\"0,0 40,0 360,200, 360,240, 320,240, 0,40\" fill=\"%1$s\" />\n");
 		foDiagonalBarDown.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foDiagonalBarDown.incompatible_divisions.add(fdBicolorCheckered);
+		foDiagonalBarDown.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foDiagonalBarDown);
 
 		FlagOverlay foDiagonalBarUp = new FlagOverlay(
@@ -132,6 +138,7 @@ public class Flag {
 				"  <polygon points=\"360,0 320,0 0,200, 0,240, 40,240, 360,40\" fill=\"%1$s\" />\n");
 		foDiagonalBarUp.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foDiagonalBarUp.incompatible_divisions.add(fdBicolorCheckered);
+		foDiagonalBarUp.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foDiagonalBarUp);
 
 		FlagOverlay foDiagonalCross = new FlagOverlay(
@@ -140,6 +147,7 @@ public class Flag {
 		foDiagonalCross.incompatible_divisions.add(fdTricolorHorizontal);
 		foDiagonalCross.incompatible_divisions.add(fdTricolorVertical);
 		foDiagonalCross.incompatible_divisions.add(fdBicolorCheckered);
+		foDiagonalCross.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foDiagonalCross);
 
 		FlagOverlay foTriangleLeft = new FlagOverlay(
@@ -147,11 +155,13 @@ public class Flag {
 				"  <polygon points=\"0,0 180,120 0,240\" fill=\"%1$s\" />\n");
 		foTriangleLeft.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foTriangleLeft.incompatible_divisions.add(fdBicolorDiagonalUp);
+		foTriangleLeft.anchors.add(new FlagSymbolAnchor(120,120, 70,120));
 		overlays.add(foTriangleLeft);
 
 		FlagOverlay foCircleCenter = new FlagOverlay(
 				"circle-center",
-				"  <circle cx=\"180\" cy=\"120\" r=\"80\" fill=\"%1$s\" />\n");
+				"  <circle cx=\"180\" cy=\"120\" r=\"90\" fill=\"%1$s\" />\n");
+		foCircleCenter.anchors.add(new FlagSymbolAnchor(150,150, 180,120));
 		overlays.add(foCircleCenter);
 
 		FlagOverlay foDiamondCenter = new FlagOverlay(
@@ -160,6 +170,7 @@ public class Flag {
 		foDiamondCenter.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foDiamondCenter.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foDiamondCenter.incompatible_divisions.add(fdBicolorCheckered);
+		foDiamondCenter.anchors.add(new FlagSymbolAnchor(300,200, 180,120));
 		overlays.add(foDiamondCenter);
 
 		FlagOverlay foSquareCanton = new FlagOverlay(
@@ -170,6 +181,7 @@ public class Flag {
 		foSquareCanton.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foSquareCanton.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foSquareCanton.incompatible_divisions.add(fdBicolor2x2);
+		foSquareCanton.anchors.add(new FlagSymbolAnchor(120,120, 60,60));
 		overlays.add(foSquareCanton);
 
 		FlagOverlay foBigSquareCanton = new FlagOverlay(
@@ -179,6 +191,7 @@ public class Flag {
 		foBigSquareCanton.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foBigSquareCanton.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foBigSquareCanton.incompatible_divisions.add(fdBicolor2x2);
+		foBigSquareCanton.anchors.add(new FlagSymbolAnchor(180,160, 90,80));
 		overlays.add(foBigSquareCanton);
 
 		FlagOverlay foRectangleCanton = new FlagOverlay(
@@ -189,6 +202,7 @@ public class Flag {
 		foRectangleCanton.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foRectangleCanton.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foRectangleCanton.incompatible_divisions.add(fdBicolorCheckered);
+		foRectangleCanton.anchors.add(new FlagSymbolAnchor(180,120, 90,60));
 		overlays.add(foRectangleCanton);
 
 		FlagOverlay foScandinavian = new FlagOverlay(
@@ -197,6 +211,7 @@ public class Flag {
 		foScandinavian.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foScandinavian.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foScandinavian.incompatible_divisions.add(fdBicolor2x2);
+		foScandinavian.anchors.add(new FlagSymbolAnchor(200,200, 120,120));
 		overlays.add(foScandinavian);
 		
 		overlay_weights = new HashMap<FlagOverlay, Double>();
@@ -222,9 +237,19 @@ public class Flag {
 		colors.add(new FlagColor("yellow", "#fcd116"));
 		colors.add(new FlagColor("orange", "#ff8400"));
 		colors.add(new FlagColor("lightblue", "#3a75c4"));
+		
+		//Symbols
+		fsNone = new FlagSymbol("none", "", 0, 0, 0, 0);
+		symbols.add(fsNone);
+		symbols.add(new FlagSymbol("five-pointed-star",
+				"<polygon fill=\"%1$s\" stroke=\"#000\" stroke-width=\"5\" points=\"125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90\"/>",
+				250, 235, 
+				125, 125 
+		));		
+	
 	}
 
-	public static FlagDivision getRandomDesign() {
+	public static FlagDivision getRandomDivision() {
 		double x = rand.nextDouble() * division_weight_sum;
 		//iterate through HashMap keys/values
 		for (Map.Entry<FlagDivision, Double> e : division_weight_sums.entrySet()) {
@@ -256,14 +281,23 @@ public class Flag {
 		return foNone;
 	}
 
+	public static FlagSymbol getRandomSymbol(FlagOverlay overlay) {
+		if (overlay.anchors.size()>0) {
+			return symbols.get(1);  //TODO
+		}
+		return fsNone;
+	}
+
 	public static Flag getRandomFlag() {
 		Flag flag = new Flag(); 
-		flag.division = getRandomDesign();
+		flag.division = getRandomDivision();
 		flag.overlay = getRandomOverlay(flag.division);
+		flag.symbol = getRandomSymbol(flag.overlay);
 		flag.color1 = colors.get(rand.nextInt(colors.size()));
 		flag.color2 = colors.get(rand.nextInt(colors.size()));
 		flag.color3 = colors.get(rand.nextInt(colors.size()));
 		flag.color4 = colors.get(rand.nextInt(colors.size()));
+		flag.color5 = colors.get(rand.nextInt(colors.size()));
 		return flag;
 	}
 	
@@ -273,6 +307,19 @@ public class Flag {
 		svgString += String.format(division.svg, color1.code, color2.code, color3.code);
 		if (overlay != foNone)
 			svgString += String.format(overlay.svg, color4.code);
+		if (symbol != fsNone) {
+			FlagSymbolAnchor target = overlay.anchors.get(0);
+			double scale = Math.min(target.width / symbol.width, target.height / symbol.height);
+
+			//NOTE: transformations from last to first
+			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">",
+					target.centerX, target.centerY);
+			svgString += String.format(Locale.US, "<g transform=\"scale(%1$f)\">", scale);
+			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">",
+					-symbol.centerX, -symbol.centerY);
+			svgString += String.format(symbol.svg, color5.code);
+			svgString += "</g></g></g>";
+		}
 		svgString +=  "</svg>";
 		
 		return svgString;
