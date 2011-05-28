@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.HashSet; 
 
 public class Flag {
 	FlagDivision division;
@@ -306,6 +307,17 @@ public class Flag {
 		flag.color5 = colors.get(rand.nextInt(colors.size()));
 		return flag;
 	}
+	
+	public int countDifferentColors() {
+		HashSet<FlagColor> different_colors = new HashSet<FlagColor>();
+		different_colors.add(color1);
+		different_colors.add(color2);
+		different_colors.add(color3);
+		different_colors.add(color4);
+		different_colors.add(color5);
+		return different_colors.size();
+	}
+
 	
 	public String getSvgString() {
 		String svgString =
