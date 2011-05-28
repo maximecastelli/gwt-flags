@@ -7,7 +7,7 @@ public class FlagOverlay {
 	String name;
 	String svg;  //SVG source
 	double weight;
-	ArrayList<FlagDesign> incompatible_designs = new ArrayList<FlagDesign>(); 
+	ArrayList<FlagDivision> incompatible_divisions = new ArrayList<FlagDivision>(); 
 
 	//Constructor
 	FlagOverlay(String name, String svg/*, double weight*/) {

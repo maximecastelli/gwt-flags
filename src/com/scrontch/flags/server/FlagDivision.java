@@ -1,13 +1,13 @@
 package com.scrontch.flags.server;
 
 
-public class FlagDesign {
+public class FlagDivision {
 	String name;
 	String svg;  //SVG source
 	double weight;
 
 	//Constructor
-	FlagDesign(String name, String svg) {
+	FlagDivision(String name, String svg) {
 		this.name = name;
 		this.svg = svg;
 	}
