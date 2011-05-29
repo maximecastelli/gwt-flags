@@ -330,15 +330,15 @@ public class Flag {
 			double scale = Math.min(target.width / symbol.width, target.height / symbol.height);
 
 			//NOTE: transformations from last to first
-			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">",
+			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">\n",
 					target.centerX, target.centerY);
-			svgString += String.format(Locale.US, "<g transform=\"scale(%1$f)\">", scale);
-			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">",
+			svgString += String.format(Locale.US, "<g transform=\"scale(%1$f)\">\n", scale);
+			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">\n",
 					-symbol.centerX, -symbol.centerY);
 			svgString += String.format(symbol.svg, color5.code);
-			svgString += "</g></g></g>";
+			svgString += "</g>\n</g>\n</g>\n";
 		}
-		svgString +=  "</svg>";
+		svgString +=  "</svg>\n";
 		
 		return svgString;
 	}
