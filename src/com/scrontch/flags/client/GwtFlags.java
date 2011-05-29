@@ -34,6 +34,7 @@ public class GwtFlags implements EntryPoint {
 	private final FlagServiceAsync flagService = GWT.create(FlagService.class);
 
 	private HTML flagWidget = new HTML("[Press button]");
+	private HTML flagLink = new HTML("");
 
 	/**
 	 * This is the entry point method.
@@ -48,6 +49,7 @@ public class GwtFlags implements EntryPoint {
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("flagContainer").add(flagWidget);
+		RootPanel.get("flagLink").add(flagLink);
 		
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -90,8 +92,8 @@ public class GwtFlags implements EntryPoint {
 			private void requestFlag() {
 				sendButton.setEnabled(false);
 				serverResponseLabel.setText("");
-				flagService.getRandomFlag(
-						new AsyncCallback<String>() {
+				flagService.getRandomFlagInfo(
+						new AsyncCallback<FlagService.FlagInfo>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
 								dialogBox
@@ -103,8 +105,12 @@ public class GwtFlags implements EntryPoint {
 								closeButton.setFocus(true);
 							}
 
-							public void onSuccess(String result) {
-		           				flagWidget.setHTML(result);
+							public void onSuccess(FlagService.FlagInfo flagInfo) {
+		           				flagWidget.setHTML(flagInfo.svgString);
+		           				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
+		           						 + flagInfo.queryString
+		           						 + "\">Download as [.svg]</a>"
+		           						);
 		           				//System.out.println("sucess.");
 		        				sendButton.setEnabled(true);
 		        				sendButton.setFocus(true);

@@ -112,6 +112,7 @@ public class Flag {
 		foNone = new FlagOverlay(
 				"none",
 				"");
+		foNone.incompatible_divisions.add(fdSolid);  //Force non-none overlay for solid division!
 		foNone.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
 		overlays.add(foNone);
 
@@ -129,6 +130,8 @@ public class Flag {
 		FlagOverlay foDiagonalBarDown = new FlagOverlay(
 				"diagonal-bar-down",
 				"  <polygon points=\"0,0 40,0 360,200, 360,240, 320,240, 0,40\" fill=\"%1$s\" />\n");
+		foDiagonalBarDown.incompatible_divisions.add(fdTricolorHorizontal);
+		foDiagonalBarDown.incompatible_divisions.add(fdTricolorVertical);
 		foDiagonalBarDown.incompatible_divisions.add(fdBicolorDiagonalUp);
 		foDiagonalBarDown.incompatible_divisions.add(fdBicolorCheckered);
 		foDiagonalBarDown.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
@@ -137,6 +140,8 @@ public class Flag {
 		FlagOverlay foDiagonalBarUp = new FlagOverlay(
 				"diagonal-bar-up",
 				"  <polygon points=\"360,0 320,0 0,200, 0,240, 40,240, 360,40\" fill=\"%1$s\" />\n");
+		foDiagonalBarUp.incompatible_divisions.add(fdTricolorHorizontal);
+		foDiagonalBarUp.incompatible_divisions.add(fdTricolorVertical);
 		foDiagonalBarUp.incompatible_divisions.add(fdBicolorDiagonalDown);
 		foDiagonalBarUp.incompatible_divisions.add(fdBicolorCheckered);
 		foDiagonalBarUp.anchors.add(new FlagSymbolAnchor(340,220, 180,120));
@@ -317,11 +322,10 @@ public class Flag {
 		different_colors.add(color5);
 		return different_colors.size();
 	}
-
 	
 	public String getSvgString() {
 		String svgString =
-			"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" x=\"0\" y=\"0\" width=\"360\" height=\"240\">";
+			"<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" x=\"0\" y=\"0\" width=\"360\" height=\"240\">\n";
 		svgString += String.format(division.svg, color1.code, color2.code, color3.code);
 		if (overlay != foNone)
 			svgString += String.format(overlay.svg, color4.code);
@@ -341,5 +345,18 @@ public class Flag {
 		svgString +=  "</svg>\n";
 		
 		return svgString;
+	}
+	
+	public String getQueryString() {
+		return String.format("d=%1$d&c1=%2$d&c2=%3$d&c3=%4$d&o=%5$d&c4=%6$d&s=%7$d&c5=%8$d",
+				divisions.indexOf(division),
+				colors.indexOf(color1),
+				colors.indexOf(color2),
+				colors.indexOf(color3),
+				overlays.indexOf(overlay),
+				colors.indexOf(color4),
+				symbols.indexOf(symbol),
+				colors.indexOf(color5)
+			);
 	}
 }
