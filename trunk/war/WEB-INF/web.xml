@@ -5,12 +5,11 @@
 
 <web-app>
   
-  <!-- Servlets -->
-  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>GwtFlags.html</welcome-file>
   </welcome-file-list>
+  <!-- Servlets -->
   <servlet>
   	<servlet-name>FlagService</servlet-name>
   	<servlet-class>com.scrontch.flags.server.FlagServiceImpl</servlet-class>
@@ -18,6 +17,14 @@
   <servlet-mapping>
   	<servlet-name>FlagService</servlet-name>
   	<url-pattern>/gwtflags/FlagService</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  	<servlet-name>SvgFileService</servlet-name>
+  	<servlet-class>com.scrontch.flags.server.SvgFileService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>SvgFileService</servlet-name>
+  	<url-pattern>/gwtflags/SvgFileService</url-pattern>
   </servlet-mapping>
 
 </web-app>
