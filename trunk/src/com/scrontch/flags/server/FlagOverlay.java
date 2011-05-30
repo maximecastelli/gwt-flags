@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class FlagOverlay {
 	String name;
 	String svg;  //SVG source
+	Boolean mustHaveSymbol = false;
 	ArrayList<FlagDivision> incompatible_divisions = new ArrayList<FlagDivision>();
 	ArrayList<FlagSymbolAnchor> anchors = new ArrayList<FlagSymbolAnchor>();
 
