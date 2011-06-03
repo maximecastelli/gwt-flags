@@ -24,6 +24,24 @@ h1 {
   background-color:#aaaaaa;
 }
 
+.flag-icon {
+  height: 24px;
+  width: 36px;
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #777777;
+  background-color: #777777;
+}
+
+.color-icon {
+  height: 12px;
+  width: 18px;
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #777777;
+  background-color: #777777;
+}
+
 .sendButton {
   margin: 0px auto;
   text-align: center;
