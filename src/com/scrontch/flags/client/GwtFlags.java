@@ -18,7 +18,11 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.SimplePanel;
+
+
+interface IntegerSetter {
+	public void setInteger(int value);
+}
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -37,33 +41,59 @@ public class GwtFlags implements EntryPoint {
 	 */
 	private final FlagServiceAsync flagService = GWT.create(FlagService.class);
 
-	private HTML flagWidget = new HTML("[Press button]");
+	private HTML flagWidget = new HTML("<p>[This App requires a browser which supports inline SVG]</p>");
 	private HTML flagLink = new HTML("");
+	private FlagInfo flagInfo = new FlagInfo();
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		FlagService.FlagInfo flagInfo = new FlagService.FlagInfo();
-		
 		final Button sendButton = new Button("Generate New Flag");
 
 		// We can add style names to widgets
 		//sendButton.addStyleName("sendButton");
 
-		FlagResources resources = GWT.create(FlagResources.class);
-		final String[] division_image_urls = new String[] {
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png",
-			"images/flag-div0.png"
+//		FlagResources resources = GWT.create(FlagResources.class);
+		final String[] division_icon_urls = new String[] {
+			"images/div0.png",
+			"images/div1.png",
+			"images/div2.png",
+			"images/div3.png",
+			"images/div4.png",
+			"images/div5.png",
+			"images/div6.png",
+			"images/div7.png",
+			"images/div8.png",
+			"images/div9.png",
+			"images/div10.png",
+			"images/div11.png"
+		};
+		
+		final String[] overlay_icon_urls = new String[] {
+			"images/ovl0.png",
+			"images/ovl1.png",
+			"images/ovl2.png",
+			"images/ovl3.png",
+			"images/ovl4.png",
+			"images/ovl5.png",
+			"images/ovl6.png",
+			"images/ovl7.png",
+			"images/ovl8.png",
+			"images/ovl9.png",
+			"images/ovl10.png",
+			"images/ovl11.png"
+		};
+		
+		final String[] symbol_icon_urls = new String[] {
+			"images/sym0.png",
+			"images/sym1.png",
+			"images/sym2.png",
+			"images/sym3.png",
+			"images/sym4.png",
+			"images/sym5.png",
+			"images/sym6.png",
+			"images/sym7.png"
 		};
 		
 		final String[] color_codes = new String[] {
@@ -88,61 +118,137 @@ public class GwtFlags implements EntryPoint {
 		rootPanel.add(verticalPanel, 22, 66);
 		verticalPanel.setSize("100px", "100px");
 
-		final List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
-		
-		class DivisionRadio implements ClickHandler {
+
+		class RadioGroupHandler implements ClickHandler {
 			ToggleButton button;
-			public DivisionRadio(ToggleButton button) {
+			List<ToggleButton> group;
+			IntegerSetter intSetter;
+			
+			public RadioGroupHandler(ToggleButton button, List<ToggleButton> group, IntegerSetter intSetter) {
 				this.button = button;
-				divisionButtons.add(button);
+				this.group = group;
+				this.intSetter = intSetter;
+				this.group.add(button);
 			}
+			
 			public void onClick(ClickEvent event) {
-				int i = divisionButtons.indexOf(button);
-				//TODO
+				intSetter.setInteger(group.indexOf(button));
+				//TODO: reload flag
 				
 				//iterator loop
-				Iterator<ToggleButton> iterator = divisionButtons.iterator();
-				while ( iterator.hasNext() ){
+				Iterator<ToggleButton> iterator = group.iterator();
+				while (iterator.hasNext()) {
 					iterator.next().setDown(false);
 				}
 				button.setDown(true);
 			}
 		}
 
-		// divisions
+		//--------------------------------------------------
+		// Divisions
+		//--------------------------------------------------
+		final List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
+		
 		{
-			Grid grid = new Grid((division_image_urls.length / 6)+1, 6);
-			//grid.setSize("100px", "100px");
+			Grid grid = new Grid((division_icon_urls.length / 6)+1, 6);
 			verticalPanel.add(grid);
 		
-			for (int i=0; i<division_image_urls.length; i++) {
-				Image image = new Image(division_image_urls[i]);
+			for (int i=0; i<division_icon_urls.length; i++) {
+				Image image = new Image(division_icon_urls[i]);
 				image.setSize("36px", "24px");
 				ToggleButton button = new ToggleButton(image);
 				button.addStyleName("flag-icon");
 				grid.setWidget(i/6, i%6, button);
-				DivisionRadio radio = new DivisionRadio(button); 
-				button.addClickHandler(radio);
+				button.addClickHandler(
+					new RadioGroupHandler(button, divisionButtons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.divIdx = value;
+							}
+						}
+					) 
+				);
 			}
 		}
-	
 		
-		// division-colors 1
+		// Division colors 1
+		final List<ToggleButton> divColor1Buttons = new ArrayList<ToggleButton>();
+		
 		{
 			Grid grid = new Grid(1, color_codes.length);
-			//grid.setSize("100px", "100px");
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<color_codes.length; i++) {
-				SimplePanel simplePanel = new SimplePanel();
-				simplePanel.addStyleName("color-icon");
-				grid.setWidget(0, i, simplePanel);
-				simplePanel.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
-//				simplePanel.addClickHandler(colorClickHandler);
-
+				ToggleButton button = new ToggleButton();
+				button.addStyleName("color-icon");
+				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
+				grid.setWidget(0, i, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, divColor1Buttons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.col1 = value;
+							}
+						}
+					) 
+				);
 			}
 		}
-	
+
+		//--------------------------------------------------
+		// Overlays
+		//--------------------------------------------------
+		final List<ToggleButton> overlayButtons = new ArrayList<ToggleButton>();
+		
+		{
+			Grid grid = new Grid((overlay_icon_urls.length / 6)+1, 6);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<overlay_icon_urls.length; i++) {
+				Image image = new Image(overlay_icon_urls[i]);
+				image.setSize("36px", "24px");
+				ToggleButton button = new ToggleButton(image);
+				button.addStyleName("flag-icon");
+				grid.setWidget(i/6, i%6, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, overlayButtons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.ovlIdx = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+		
+		//--------------------------------------------------
+		// Symbols
+		//--------------------------------------------------
+		final List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
+		
+		{
+			Grid grid = new Grid((symbol_icon_urls.length / 6)+1, 6);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<symbol_icon_urls.length; i++) {
+				Image image = new Image(symbol_icon_urls[i]);
+				image.setSize("36px", "24px");
+				ToggleButton button = new ToggleButton(image);
+				button.addStyleName("flag-icon");
+				grid.setWidget(i/6, i%6, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, symbolButtons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.symIdx = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+		
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Remote Procedure Call");
@@ -181,11 +287,11 @@ public class GwtFlags implements EntryPoint {
 			/**
 			 * Send the request to the server and wait for a response.
 			 */
-			private void requestFlag() {
+			public void requestFlag() {
 				sendButton.setEnabled(false);
 				serverResponseLabel.setText("");
-				flagService.getRandomFlagInfo(
-						new AsyncCallback<FlagService.FlagInfo>() {
+				flagService.getRandomFlagData(
+						new AsyncCallback<FlagService.FlagData>() {
 							public void onFailure(Throwable caught) {
 								// Show the RPC error message to the user
 								dialogBox
@@ -197,10 +303,20 @@ public class GwtFlags implements EntryPoint {
 								closeButton.setFocus(true);
 							}
 
-							public void onSuccess(FlagService.FlagInfo flagInfo) {
-		           				flagWidget.setHTML(flagInfo.svgString);
+							public void onSuccess(FlagService.FlagData flagData) {
+								flagInfo = flagData.flagInfo;
+
+								//Update the UI
+								for (int i=0; i<divisionButtons.size(); i++)
+									divisionButtons.get(i).setDown(i == flagInfo.divIdx);
+								for (int i=0; i<overlayButtons.size(); i++)
+									overlayButtons.get(i).setDown(i == flagInfo.ovlIdx);
+								for (int i=0; i<symbolButtons.size(); i++)
+									symbolButtons.get(i).setDown(i == flagInfo.symIdx);
+								
+		           				flagWidget.setHTML(flagData.svgString);
 		           				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
-		           						 + flagInfo.queryString
+		           						 + flagData.flagInfo.getQueryString()
 		           						 + "\">Download as [.svg]</a>"
 		           						);
 		           				//System.out.println("sucess.");
@@ -214,5 +330,6 @@ public class GwtFlags implements EntryPoint {
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
+		handler.requestFlag();
 	}
 }

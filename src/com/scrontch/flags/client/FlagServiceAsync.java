@@ -1,9 +1,9 @@
 package com.scrontch.flags.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.scrontch.flags.client.FlagService.FlagInfo;
+import com.scrontch.flags.client.FlagService.FlagData;
 
 public interface FlagServiceAsync {
 
-	void getRandomFlagInfo(AsyncCallback<FlagInfo> callback);
+	void getRandomFlagData(AsyncCallback<FlagData> callback);
 }

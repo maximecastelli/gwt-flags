@@ -8,24 +8,26 @@ import java.util.Map;
 import java.util.Random;
 import java.util.HashSet; 
 
+import com.scrontch.flags.client.FlagInfo;
+
 public class Flag {
-	FlagDivision division;
-	FlagColor color1;
-	FlagColor color2;
-	FlagColor color3;
-	FlagOverlay overlay;
-	FlagColor color4;
-	FlagSymbol symbol;
-	FlagColor color5;
+	public FlagDivision division;
+	public FlagColor color1;
+	public FlagColor color2;
+	public FlagColor color3;
+	public FlagOverlay overlay;
+	public FlagColor color4;
+	public FlagSymbol symbol;
+	public FlagColor color5;
 
 	static Random rand = new Random();
-	static List<FlagDivision> divisions = new ArrayList<FlagDivision>();
-	static List<FlagOverlay> overlays = new ArrayList<FlagOverlay>();
-	static List<FlagColor> colors = new ArrayList<FlagColor>();
-	static List<FlagSymbol> symbols = new ArrayList<FlagSymbol>();
-	static FlagDivision fdSolid;
-	static FlagOverlay foNone;
-	static FlagSymbol fsNone;
+	public static List<FlagDivision> divisions = new ArrayList<FlagDivision>();
+	public static List<FlagOverlay> overlays = new ArrayList<FlagOverlay>();
+	public static List<FlagColor> colors = new ArrayList<FlagColor>();
+	public static List<FlagSymbol> symbols = new ArrayList<FlagSymbol>();
+	public static FlagDivision fdSolid;
+	public static FlagOverlay foNone;
+	public static FlagSymbol fsNone;
 
 	static Map<FlagDivision, Double> division_weight_sums = new HashMap<FlagDivision, Double>();
 
@@ -317,7 +319,7 @@ public class Flag {
 				149, 161 
 		));		
 		symbols.add(new FlagSymbol("rose",
-				"<path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 39.826803,47.103134 L 25.046555,39.496442 L 9.165333,46.351449 L 11.023823,30.021445 L 0.49999995,18.580642 L 16.869364,15.478122 L 24.442888,0.49999995 L 31.392558,17.182371 L 49.356953,18.412977 L 36.757149,30.884233 L 39.826803,47.103134 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 25.011141,28.067971 C 20.312897,3.6312615 30.317313,3.4032515 37.744707,7.9610615 C 45.235998,12.558081 47.720069,21.017521 25.011141,28.067971 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 24.896964,24.830161 C 0.66126718,23.937011 5.0676872,12.771851 10.488454,8.1514115 C 15.858368,3.5743215 26.56127,1.1008915 24.896964,24.830161 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 24.729941,29.081071 C 43.16758,16.417011 48.56516,22.802601 45.80926,32.522351 C 43.076473,42.160591 38.712191,46.591971 24.729941,29.081071 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 23.664307,27.833981 C 41.523625,42.913161 30.261036,50.121091 23.457484,50.043691 C 16.654364,49.966291 6.8811522,42.891791 23.664307,27.833981 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 23.379563,26.074841 C 13.169281,45.976471 4.3108162,41.298791 2.4432192,32.963631 C 0.57980418,24.647131 2.7580782,17.306181 23.379563,26.074841 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 16.826925,16.502686 L 26.689879,21.858016 L 32.552936,16.20107 L 30.182279,25.68874 L 36.643725,30.666149 L 27.712109,31.25466 L 23.622109,39.114672 L 21.622987,30.00855 L 12.338898,29.728647 L 20.358619,23.931896 L 16.826925,16.502686 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 32.067272,26.656313 C 32.067956,30.573692 28.892486,33.749713 24.975109,33.749713 C 21.057731,33.749713 17.882261,30.573692 17.882945,26.656313 C 17.882261,22.738934 21.057731,19.562914 24.975109,19.562914 C 28.892486,19.562914 32.067956,22.738934 32.067272,26.656313 L 32.067272,26.656313 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 17.008638,43.779761 C 19.326894,46.277451 23.032327,43.898211 24.527036,43.842301 C 26.052504,43.785241 28.345776,46.255251 30.616781,43.449891\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 39.047634,38.653971 C 41.264515,37.165891 40.488416,32.986761 40.996356,31.579891 C 41.514751,30.144071 44.355397,28.187991 42.957111,25.207831\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 40.318857,16.839181 C 39.78938,12.672931 36.614182,13.448321 35.282087,12.768031 C 33.922579,12.073731 32.15809,7.6503215 28.278559,9.5201315\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 19.473773,8.4478015 C 15.355215,7.6259715 14.160777,11.689441 13.092453,12.736321 C 12.002142,13.804751 9.4201202,14.242871 9.6270202,17.846301\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:1;\" d=\"M 6.1713272,24.782861 C 3.8292382,28.268911 7.1211862,30.933791 7.6768792,32.322491 C 8.2440062,33.739761 7.6557742,36.291781 11.061796,37.486151\" />",
+				"<path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 39.826803,47.103134 L 25.046555,39.496442 L 9.165333,46.351449 L 11.023823,30.021445 L 0.49999995,18.580642 L 16.869364,15.478122 L 24.442888,0.49999995 L 31.392558,17.182371 L 49.356953,18.412977 L 36.757149,30.884233 L 39.826803,47.103134 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 25.011141,28.067971 C 20.312897,3.6312615 30.317313,3.4032515 37.744707,7.9610615 C 45.235998,12.558081 47.720069,21.017521 25.011141,28.067971 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 24.896964,24.830161 C 0.66126718,23.937011 5.0676872,12.771851 10.488454,8.1514115 C 15.858368,3.5743215 26.56127,1.1008915 24.896964,24.830161 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 24.729941,29.081071 C 43.16758,16.417011 48.56516,22.802601 45.80926,32.522351 C 43.076473,42.160591 38.712191,46.591971 24.729941,29.081071 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 23.664307,27.833981 C 41.523625,42.913161 30.261036,50.121091 23.457484,50.043691 C 16.654364,49.966291 6.8811522,42.891791 23.664307,27.833981 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 23.379563,26.074841 C 13.169281,45.976471 4.3108162,41.298791 2.4432192,32.963631 C 0.57980418,24.647131 2.7580782,17.306181 23.379563,26.074841 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 16.826925,16.502686 L 26.689879,21.858016 L 32.552936,16.20107 L 30.182279,25.68874 L 36.643725,30.666149 L 27.712109,31.25466 L 23.622109,39.114672 L 21.622987,30.00855 L 12.338898,29.728647 L 20.358619,23.931896 L 16.826925,16.502686 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 32.067272,26.656313 C 32.067956,30.573692 28.892486,33.749713 24.975109,33.749713 C 21.057731,33.749713 17.882261,30.573692 17.882945,26.656313 C 17.882261,22.738934 21.057731,19.562914 24.975109,19.562914 C 28.892486,19.562914 32.067956,22.738934 32.067272,26.656313 L 32.067272,26.656313 z\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 17.008638,43.779761 C 19.326894,46.277451 23.032327,43.898211 24.527036,43.842301 C 26.052504,43.785241 28.345776,46.255251 30.616781,43.449891\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 39.047634,38.653971 C 41.264515,37.165891 40.488416,32.986761 40.996356,31.579891 C 41.514751,30.144071 44.355397,28.187991 42.957111,25.207831\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 40.318857,16.839181 C 39.78938,12.672931 36.614182,13.448321 35.282087,12.768031 C 33.922579,12.073731 32.15809,7.6503215 28.278559,9.5201315\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 19.473773,8.4478015 C 15.355215,7.6259715 14.160777,11.689441 13.092453,12.736321 C 12.002142,13.804751 9.4201202,14.242871 9.6270202,17.846301\" /> <path style=\"fill:%1$s;stroke:#000;stroke-width:0.8;\" d=\"M 6.1713272,24.782861 C 3.8292382,28.268911 7.1211862,30.933791 7.6768792,32.322491 C 8.2440062,33.739761 7.6557742,36.291781 11.061796,37.486151\" />",
 				50, 51, 
 				25, 26 
 		));		
@@ -450,5 +452,18 @@ public class Flag {
 				symbols.indexOf(symbol),
 				colors.indexOf(color5)
 			);
+	}
+
+	public FlagInfo getFlagInfo() {
+		FlagInfo result = new FlagInfo();
+		result.divIdx = divisions.indexOf(division);
+		result.col1 = colors.indexOf(color1);
+		result.col2 = colors.indexOf(color2);
+		result.col3 = colors.indexOf(color3);
+		result.ovlIdx = overlays.indexOf(overlay);
+		result.col4 = colors.indexOf(color4);
+		result.symIdx = symbols.indexOf(symbol);
+		result.col5 = colors.indexOf(color5);
+		return result;
 	}
 }
