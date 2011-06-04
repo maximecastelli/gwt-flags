@@ -7,11 +7,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class FlagServiceImpl extends RemoteServiceServlet implements FlagService {
 	
 	@Override
-	public FlagInfo getRandomFlagInfo() {
+	public FlagData getRandomFlagData() {
 		Flag flag = Flag.getRandomFlag();
-		return new FlagInfo(
+		return new FlagData(
 			flag.getSvgString(),
-			flag.getQueryString()
+			flag.getFlagInfo()
 		);
 	}
 }

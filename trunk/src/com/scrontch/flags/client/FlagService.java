@@ -22,19 +22,18 @@ public interface FlagService extends RemoteService {
 	}
 
 	@SuppressWarnings("serial")
-	public class FlagInfo implements Serializable {
+	public class FlagData implements Serializable {
 		String svgString;
-		String queryString;
+		FlagInfo flagInfo;
 
-		public FlagInfo() {
+		public FlagData() {
 		}
 
-		public FlagInfo(String svgString, String queryString) {
+		public FlagData(String svgString, FlagInfo flagInfo) {
 			this.svgString = svgString;
-			this.queryString = queryString;
+			this.flagInfo = flagInfo;
 		}
 	}
 	
-	FlagInfo getRandomFlagInfo();
-
+	FlagData getRandomFlagData();
 }
