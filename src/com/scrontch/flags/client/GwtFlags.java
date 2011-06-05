@@ -1,13 +1,18 @@
 package com.scrontch.flags.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -43,12 +48,13 @@ public class GwtFlags implements EntryPoint {
 
 	// Widgets...
 	private Button sendButton = new Button("Generate Random Flag");
+	private Button downloadButton = new Button("Open as standalone [.svg]");
 	private DialogBox dialogBox = new DialogBox();
 	private Button closeButton = new Button("Close");
 	private HTML serverResponseLabel = new HTML();
 	
 	private HTML flagWidget = new HTML("<p>[This App requires a browser which supports inline SVG]</p>");
-	private HTML flagLink = new HTML("");
+	//private HTML flagLink = new HTML("");
 	private FlagInfo flagInfo = new FlagInfo();
 	private List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
 	private List<ToggleButton> divColor1Buttons = new ArrayList<ToggleButton>();
@@ -71,7 +77,7 @@ public class GwtFlags implements EntryPoint {
 	/**
 	 * Send the request for the flag given by flagInfo to the server and wait for a response.
 	 */
-	public void requestFlag() {
+	public void requestFlag(final boolean createHistoryItem) {
 		sendButton.setEnabled(false);
 		serverResponseLabel.setText("");
 		flagService.getFlagData( flagInfo,
@@ -91,13 +97,17 @@ public class GwtFlags implements EntryPoint {
 					flagInfo = flagData.flagInfo;
 					//updateButtons();
        				flagWidget.setHTML(flagData.svgString);
+/*       				
        				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
        						 + flagData.flagInfo.getQueryString()
        						 + "\">Download as [.svg]</a>"
        						);
+*/       						
        				//System.out.println("sucess.");
     				sendButton.setEnabled(true);
     				sendButton.setFocus(true);
+    				if (createHistoryItem)
+    					History.newItem(flagInfo.getQueryString());
        			}
 			});
 	}
@@ -125,13 +135,16 @@ public class GwtFlags implements EntryPoint {
 					flagInfo = flagData.flagInfo;
 					updateButtons();
        				flagWidget.setHTML(flagData.svgString);
+/*       				
        				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
        						 + flagData.flagInfo.getQueryString()
        						 + "\">Download as [.svg]</a>"
        						);
+*/       						
        				//System.out.println("sucess.");
     				sendButton.setEnabled(true);
     				sendButton.setFocus(true);
+					History.newItem(flagInfo.getQueryString());
        			}
 			});
 	}
@@ -200,12 +213,37 @@ public class GwtFlags implements EntryPoint {
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("flagContainer").add(flagWidget);
-		RootPanel.get("flagLink").add(flagLink);
+//		RootPanel.get("flagLink").add(flagLink);
+		RootPanel.get("flagLink").add(downloadButton);
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
 		RootPanel.get("leftPanel").add(verticalPanel);
 		verticalPanel.setSize("100px", "100px");
 
+		// Set up history management
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+			public void onValueChange(ValueChangeEvent<String> event) {
+				String historyToken = event.getValue();
+				
+				// Parse the history token
+				String[] params = historyToken.split("&");  
+				Map<String, String> map = new HashMap<String, String>();  
+				for (String param : params) {  
+					String name = param.split("=")[0];  
+					String value = param.split("=")[1];  
+					map.put(name, value);
+				}
+				flagInfo.divIdx = Integer.parseInt(map.get("d"));
+				flagInfo.col1 = Integer.parseInt(map.get("c1"));
+				flagInfo.col2 = Integer.parseInt(map.get("c2"));
+				flagInfo.col3 = Integer.parseInt(map.get("c3"));
+				flagInfo.ovlIdx = Integer.parseInt(map.get("o"));
+				flagInfo.col4 = Integer.parseInt(map.get("c4"));
+				flagInfo.symIdx = Integer.parseInt(map.get("s"));
+				flagInfo.col5 = Integer.parseInt(map.get("c5"));
+				requestFlag(false);
+			}
+		});
 
 		class RadioGroupHandler implements ClickHandler {
 			ToggleButton button;
@@ -222,7 +260,7 @@ public class GwtFlags implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				intSetter.setInteger(group.indexOf(button));
 				// Reload the flag.
-				requestFlag();
+				requestFlag(true);
 				
 				Iterator<ToggleButton> iterator = group.iterator();
 				while (iterator.hasNext()) {
@@ -351,8 +389,8 @@ public class GwtFlags implements EntryPoint {
 			}
 		});
 
-		// Create a handler for the sendButton and nameField
-		class MyHandler implements ClickHandler {
+		// Create a handler for the sendButton
+		class SendButtonHandler implements ClickHandler {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
@@ -360,10 +398,24 @@ public class GwtFlags implements EntryPoint {
 				requestRandomFlag();
 			}
 		}
+		
+		// Create a handler for the downloadButton
+		class DownloadButtonHandler implements ClickHandler {
+			/**
+			 * Fired when the user clicks on the downloadButton.
+			 */
+			public void onClick(ClickEvent event) {
+				com.google.gwt.user.client.Window.open(
+						"/gwtflags/SvgFileService?" + flagInfo.getQueryString(),
+						"_blank", "");
+			}
+		}
 
-		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
+		// Add the handlers
+		SendButtonHandler sendButtonHandler = new SendButtonHandler();
+		sendButton.addClickHandler(sendButtonHandler);
+		DownloadButtonHandler downloadButtonHandler = new DownloadButtonHandler();
+		downloadButton.addClickHandler(downloadButtonHandler);
 		
 		// Start with a random flag
 		requestRandomFlag();
