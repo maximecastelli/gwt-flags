@@ -35,5 +35,6 @@ public interface FlagService extends RemoteService {
 		}
 	}
 	
+	FlagData getFlagData(FlagInfo flagInfo);
 	FlagData getRandomFlagData();
 }

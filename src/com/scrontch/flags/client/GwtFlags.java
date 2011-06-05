@@ -41,18 +41,105 @@ public class GwtFlags implements EntryPoint {
 	 */
 	private final FlagServiceAsync flagService = GWT.create(FlagService.class);
 
+	// Widgets...
+	private Button sendButton = new Button("Generate Random Flag");
+	private DialogBox dialogBox = new DialogBox();
+	private Button closeButton = new Button("Close");
+	private HTML serverResponseLabel = new HTML();
+	
 	private HTML flagWidget = new HTML("<p>[This App requires a browser which supports inline SVG]</p>");
 	private HTML flagLink = new HTML("");
 	private FlagInfo flagInfo = new FlagInfo();
+	private List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> divColor1Buttons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> overlayButtons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
+
+	
+	/**
+	 * Update the user interface.
+	 */
+	private void updateButtons() {
+		for (int i=0; i<divisionButtons.size(); i++)
+			divisionButtons.get(i).setDown(i == flagInfo.divIdx);
+		for (int i=0; i<overlayButtons.size(); i++)
+			overlayButtons.get(i).setDown(i == flagInfo.ovlIdx);
+		for (int i=0; i<symbolButtons.size(); i++)
+			symbolButtons.get(i).setDown(i == flagInfo.symIdx);
+	}
+
+	/**
+	 * Send the request for the flag given by flagInfo to the server and wait for a response.
+	 */
+	public void requestFlag() {
+		sendButton.setEnabled(false);
+		serverResponseLabel.setText("");
+		flagService.getFlagData( flagInfo,
+			new AsyncCallback<FlagService.FlagData>() {
+				public void onFailure(Throwable caught) {
+					// Show the RPC error message to the user
+					dialogBox
+							.setText("Remote Procedure Call - Failure");
+					serverResponseLabel
+							.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML(SERVER_ERROR);
+					dialogBox.center();
+					closeButton.setFocus(true);
+				}
+
+				public void onSuccess(FlagService.FlagData flagData) {
+					flagInfo = flagData.flagInfo;
+					//updateButtons();
+       				flagWidget.setHTML(flagData.svgString);
+       				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
+       						 + flagData.flagInfo.getQueryString()
+       						 + "\">Download as [.svg]</a>"
+       						);
+       				//System.out.println("sucess.");
+    				sendButton.setEnabled(true);
+    				sendButton.setFocus(true);
+       			}
+			});
+	}
+
+	/**
+	 * Send the request a random flag to the server and wait for a response.
+	 */
+	public void requestRandomFlag() {
+		sendButton.setEnabled(false);
+		serverResponseLabel.setText("");
+		flagService.getRandomFlagData(
+			new AsyncCallback<FlagService.FlagData>() {
+				public void onFailure(Throwable caught) {
+					// Show the RPC error message to the user
+					dialogBox
+							.setText("Remote Procedure Call - Failure");
+					serverResponseLabel
+							.addStyleName("serverResponseLabelError");
+					serverResponseLabel.setHTML(SERVER_ERROR);
+					dialogBox.center();
+					closeButton.setFocus(true);
+				}
+
+				public void onSuccess(FlagService.FlagData flagData) {
+					flagInfo = flagData.flagInfo;
+					updateButtons();
+       				flagWidget.setHTML(flagData.svgString);
+       				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
+       						 + flagData.flagInfo.getQueryString()
+       						 + "\">Download as [.svg]</a>"
+       						);
+       				//System.out.println("sucess.");
+    				sendButton.setEnabled(true);
+    				sendButton.setFocus(true);
+       			}
+			});
+	}
 
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Generate New Flag");
-
-		// We can add style names to widgets
-		//sendButton.addStyleName("sendButton");
 
 //		FlagResources resources = GWT.create(FlagResources.class);
 		final String[] division_icon_urls = new String[] {
@@ -106,16 +193,17 @@ public class GwtFlags implements EntryPoint {
 		        "#ff8400",
 		        "#3a75c4"
 			};
-			
+		
+		// We can add style names to widgets
+		//sendButton.addStyleName("sendButton");
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel rootPanel = RootPanel.get("sendButtonContainer");
-		rootPanel.add(sendButton);
+		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("flagContainer").add(flagWidget);
 		RootPanel.get("flagLink").add(flagLink);
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		rootPanel.add(verticalPanel, 22, 66);
+		RootPanel.get("leftPanel").add(verticalPanel);
 		verticalPanel.setSize("100px", "100px");
 
 
@@ -133,9 +221,9 @@ public class GwtFlags implements EntryPoint {
 			
 			public void onClick(ClickEvent event) {
 				intSetter.setInteger(group.indexOf(button));
-				//TODO: reload flag
+				// Reload the flag.
+				requestFlag();
 				
-				//iterator loop
 				Iterator<ToggleButton> iterator = group.iterator();
 				while (iterator.hasNext()) {
 					iterator.next().setDown(false);
@@ -146,9 +234,6 @@ public class GwtFlags implements EntryPoint {
 
 		//--------------------------------------------------
 		// Divisions
-		//--------------------------------------------------
-		final List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
-		
 		{
 			Grid grid = new Grid((division_icon_urls.length / 6)+1, 6);
 			verticalPanel.add(grid);
@@ -172,8 +257,6 @@ public class GwtFlags implements EntryPoint {
 		}
 		
 		// Division colors 1
-		final List<ToggleButton> divColor1Buttons = new ArrayList<ToggleButton>();
-		
 		{
 			Grid grid = new Grid(1, color_codes.length);
 			verticalPanel.add(grid);
@@ -197,9 +280,6 @@ public class GwtFlags implements EntryPoint {
 
 		//--------------------------------------------------
 		// Overlays
-		//--------------------------------------------------
-		final List<ToggleButton> overlayButtons = new ArrayList<ToggleButton>();
-		
 		{
 			Grid grid = new Grid((overlay_icon_urls.length / 6)+1, 6);
 			verticalPanel.add(grid);
@@ -224,7 +304,6 @@ public class GwtFlags implements EntryPoint {
 		
 		//--------------------------------------------------
 		// Symbols
-		//--------------------------------------------------
 		final List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
 		
 		{
@@ -250,14 +329,11 @@ public class GwtFlags implements EntryPoint {
 		}
 		
 		// Create the popup dialog box
-		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
-		final Button closeButton = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton.getElement().setId("closeButton");
 		final Label textToServerLabel = new Label();
-		final HTML serverResponseLabel = new HTML();
 		VerticalPanel dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
@@ -281,55 +357,15 @@ public class GwtFlags implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				requestFlag();
-			}
-
-			/**
-			 * Send the request to the server and wait for a response.
-			 */
-			public void requestFlag() {
-				sendButton.setEnabled(false);
-				serverResponseLabel.setText("");
-				flagService.getRandomFlagData(
-						new AsyncCallback<FlagService.FlagData>() {
-							public void onFailure(Throwable caught) {
-								// Show the RPC error message to the user
-								dialogBox
-										.setText("Remote Procedure Call - Failure");
-								serverResponseLabel
-										.addStyleName("serverResponseLabelError");
-								serverResponseLabel.setHTML(SERVER_ERROR);
-								dialogBox.center();
-								closeButton.setFocus(true);
-							}
-
-							public void onSuccess(FlagService.FlagData flagData) {
-								flagInfo = flagData.flagInfo;
-
-								//Update the UI
-								for (int i=0; i<divisionButtons.size(); i++)
-									divisionButtons.get(i).setDown(i == flagInfo.divIdx);
-								for (int i=0; i<overlayButtons.size(); i++)
-									overlayButtons.get(i).setDown(i == flagInfo.ovlIdx);
-								for (int i=0; i<symbolButtons.size(); i++)
-									symbolButtons.get(i).setDown(i == flagInfo.symIdx);
-								
-		           				flagWidget.setHTML(flagData.svgString);
-		           				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
-		           						 + flagData.flagInfo.getQueryString()
-		           						 + "\">Download as [.svg]</a>"
-		           						);
-		           				//System.out.println("sucess.");
-		        				sendButton.setEnabled(true);
-		        				sendButton.setFocus(true);
-		           			}
-						});
+				requestRandomFlag();
 			}
 		}
 
 		// Add a handler to send the name to the server
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
-		handler.requestFlag();
+		
+		// Start with a random flag
+		requestRandomFlag();
 	}
 }

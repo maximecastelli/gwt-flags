@@ -6,4 +6,6 @@ import com.scrontch.flags.client.FlagService.FlagData;
 public interface FlagServiceAsync {
 
 	void getRandomFlagData(AsyncCallback<FlagData> callback);
+
+	void getFlagData(FlagInfo flagInfo, AsyncCallback<FlagData> callback);
 }

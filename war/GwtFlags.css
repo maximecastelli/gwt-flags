@@ -15,15 +15,6 @@ p {
   text-align: center;
 }
 
-.flag {
-  height: 240px;
-  width: 360px;
-  padding: 4px;
-  margin: 0px auto;
-  text-align: center;
-  background-color:#aaaaaa;
-}
-
 .flag-icon {
   height: 24px;
   width: 36px;
@@ -60,6 +51,15 @@ p {
 
 .serverResponseLabelError {
   color: red;
+}
+
+#flagContainer {
+  height: 240px;
+  width: 360px;
+  padding: 4px;
+  margin: 0px auto;
+  text-align: center;
+  background-color:#aaaaaa;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
