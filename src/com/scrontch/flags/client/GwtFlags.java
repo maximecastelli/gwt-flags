@@ -57,9 +57,13 @@ public class GwtFlags implements EntryPoint {
 	//private HTML flagLink = new HTML("");
 	private FlagInfo flagInfo = new FlagInfo();
 	private List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
-	private List<ToggleButton> divColor1Buttons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> color1Buttons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> color2Buttons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> color3Buttons = new ArrayList<ToggleButton>();
 	private List<ToggleButton> overlayButtons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> color4Buttons = new ArrayList<ToggleButton>();
 	private List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
+	private List<ToggleButton> color5Buttons = new ArrayList<ToggleButton>();
 
 	
 	/**
@@ -68,10 +72,20 @@ public class GwtFlags implements EntryPoint {
 	private void updateButtons() {
 		for (int i=0; i<divisionButtons.size(); i++)
 			divisionButtons.get(i).setDown(i == flagInfo.divIdx);
+		for (int i=0; i<color1Buttons.size(); i++)
+			color1Buttons.get(i).setDown(i == flagInfo.col1);
+		for (int i=0; i<color2Buttons.size(); i++)
+			color2Buttons.get(i).setDown(i == flagInfo.col2);
+		for (int i=0; i<color3Buttons.size(); i++)
+			color3Buttons.get(i).setDown(i == flagInfo.col3);
 		for (int i=0; i<overlayButtons.size(); i++)
 			overlayButtons.get(i).setDown(i == flagInfo.ovlIdx);
+		for (int i=0; i<color4Buttons.size(); i++)
+			color4Buttons.get(i).setDown(i == flagInfo.col4);
 		for (int i=0; i<symbolButtons.size(); i++)
 			symbolButtons.get(i).setDown(i == flagInfo.symIdx);
+		for (int i=0; i<color5Buttons.size(); i++)
+			color5Buttons.get(i).setDown(i == flagInfo.col5);
 	}
 
 	/**
@@ -270,10 +284,11 @@ public class GwtFlags implements EntryPoint {
 			}
 		}
 
+		verticalPanel.add(new HTML("<div class=\"tool-header\">Division</div>"));
 		//--------------------------------------------------
 		// Divisions
 		{
-			Grid grid = new Grid((division_icon_urls.length / 6)+1, 6);
+			Grid grid = new Grid(2, 6);
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<division_icon_urls.length; i++) {
@@ -294,18 +309,17 @@ public class GwtFlags implements EntryPoint {
 			}
 		}
 		
-		// Division colors 1
 		{
 			Grid grid = new Grid(1, color_codes.length);
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<color_codes.length; i++) {
 				ToggleButton button = new ToggleButton();
-				button.addStyleName("color-icon");
+				button.setStyleName("color-button");
 				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
 				grid.setWidget(0, i, button);
 				button.addClickHandler(
-					new RadioGroupHandler(button, divColor1Buttons,
+					new RadioGroupHandler(button, color1Buttons,
 						new IntegerSetter() {
 							public void setInteger(int value) {
 								flagInfo.col1 = value;
@@ -316,10 +330,53 @@ public class GwtFlags implements EntryPoint {
 			}
 		}
 
+		{
+			Grid grid = new Grid(1, color_codes.length);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<color_codes.length; i++) {
+				ToggleButton button = new ToggleButton();
+				button.setStyleName("color-button");
+				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
+				grid.setWidget(0, i, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, color2Buttons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.col2 = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+
+		{
+			Grid grid = new Grid(1, color_codes.length);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<color_codes.length; i++) {
+				ToggleButton button = new ToggleButton();
+				button.setStyleName("color-button");
+				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
+				grid.setWidget(0, i, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, color3Buttons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.col3 = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+
+		verticalPanel.add(new HTML("<div class=\"tool-header\">Overlay</div>"));
 		//--------------------------------------------------
 		// Overlays
 		{
-			Grid grid = new Grid((overlay_icon_urls.length / 6)+1, 6);
+			Grid grid = new Grid(2, 6);
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<overlay_icon_urls.length; i++) {
@@ -340,12 +397,34 @@ public class GwtFlags implements EntryPoint {
 			}
 		}
 		
+		{
+			Grid grid = new Grid(1, color_codes.length);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<color_codes.length; i++) {
+				ToggleButton button = new ToggleButton();
+				button.setStyleName("color-button");
+				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
+				grid.setWidget(0, i, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, color4Buttons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.col4 = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+
+		verticalPanel.add(new HTML("<div class=\"tool-header\">Symbol</div>"));
 		//--------------------------------------------------
 		// Symbols
 		final List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
 		
 		{
-			Grid grid = new Grid((symbol_icon_urls.length / 6)+1, 6);
+			Grid grid = new Grid(2, 6);
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<symbol_icon_urls.length; i++) {
@@ -366,6 +445,27 @@ public class GwtFlags implements EntryPoint {
 			}
 		}
 		
+		{
+			Grid grid = new Grid(1, color_codes.length);
+			verticalPanel.add(grid);
+		
+			for (int i=0; i<color_codes.length; i++) {
+				ToggleButton button = new ToggleButton();
+				button.setStyleName("color-button");
+				button.getElement().getStyle().setProperty("backgroundColor", color_codes[i]);
+				grid.setWidget(0, i, button);
+				button.addClickHandler(
+					new RadioGroupHandler(button, color5Buttons,
+						new IntegerSetter() {
+							public void setInteger(int value) {
+								flagInfo.col5 = value;
+							}
+						}
+					) 
+				);
+			}
+		}
+
 		// Create the popup dialog box
 		dialogBox.setText("Remote Procedure Call");
 		dialogBox.setAnimationEnabled(true);
