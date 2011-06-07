@@ -1,0 +1,100 @@
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 10px 0px 20px;
+  text-align: center;
+  color: #777777;
+}
+
+p {
+  color: #777777;
+}
+
+.centered {
+  margin: 0px auto;
+  text-align: center;
+}
+
+.footer {
+  font-size: smaller;
+}
+
+.tool-header {
+  font-weight: bold;
+  color: #777777;
+}
+
+.flag-icon {
+  height: 24px;
+  width: 36px;
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #777777;
+  background-color: #777777;
+}
+
+.color-icon {
+  height: 16px;
+  width: 23px;
+  background-image: none;
+  background-color: #777777;
+}
+
+.color-button {
+  height: 16px;
+  width: 23px;
+  background-image: none;
+  background-color: #777777;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: hand;
+}
+.color-button-up-hovering
+{
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+  cursor: pointer;
+}
+.color-button-down, .color-button-down-hovering
+{
+  border-top: 1px solid #333;
+  border-left: 1px solid #333;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+}
+
+.sendButton {
+  margin: 0px auto;
+  text-align: center;
+  display: block;
+  font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+  width: 400px;
+}
+
+.dialogVPanel {
+  margin: 5px;
+}
+
+.serverResponseLabelError {
+  color: red;
+}
+
+#flagContainer {
+  height: 240px;
+  width: 360px;
+  padding: 4px;
+  margin: 0px auto;
+  text-align: center;
+  background-color:#aaaaaa;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+  margin: 15px 6px 6px;
+}
