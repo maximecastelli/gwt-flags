@@ -421,8 +421,6 @@ public class GwtFlags implements EntryPoint {
 		verticalPanel.add(new HTML("<div class=\"tool-header\">Symbol</div>"));
 		//--------------------------------------------------
 		// Symbols
-		final List<ToggleButton> symbolButtons = new ArrayList<ToggleButton>();
-		
 		{
 			Grid grid = new Grid(2, 6);
 			verticalPanel.add(grid);
