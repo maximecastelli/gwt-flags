@@ -207,7 +207,9 @@ public class GwtFlags implements EntryPoint {
 			"images/sym4.png",
 			"images/sym5.png",
 			"images/sym6.png",
-			"images/sym7.png"
+			"images/sym7.png",
+			"images/sym8.png",
+			"images/sym9.png"
 		};
 		
 		final String[] color_codes = new String[] {
