@@ -209,7 +209,9 @@ public class GwtFlags implements EntryPoint {
 			"images/sym6.png",
 			"images/sym7.png",
 			"images/sym8.png",
-			"images/sym9.png"
+			"images/sym9.png",
+			"images/sym10.png",
+			"images/sym11.png",
 		};
 		
 		final String[] color_codes = new String[] {
@@ -297,7 +299,7 @@ public class GwtFlags implements EntryPoint {
 				Image image = new Image(division_icon_urls[i]);
 				image.setSize("36px", "24px");
 				ToggleButton button = new ToggleButton(image);
-				button.addStyleName("flag-icon");
+				button.addStyleName("flag-button");
 				grid.setWidget(i/6, i%6, button);
 				button.addClickHandler(
 					new RadioGroupHandler(button, divisionButtons,
@@ -385,7 +387,7 @@ public class GwtFlags implements EntryPoint {
 				Image image = new Image(overlay_icon_urls[i]);
 				image.setSize("36px", "24px");
 				ToggleButton button = new ToggleButton(image);
-				button.addStyleName("flag-icon");
+				button.addStyleName("flag-button");
 				grid.setWidget(i/6, i%6, button);
 				button.addClickHandler(
 					new RadioGroupHandler(button, overlayButtons,
@@ -431,7 +433,7 @@ public class GwtFlags implements EntryPoint {
 				Image image = new Image(symbol_icon_urls[i]);
 				image.setSize("36px", "24px");
 				ToggleButton button = new ToggleButton(image);
-				button.addStyleName("flag-icon");
+				button.addStyleName("flag-button");
 				grid.setWidget(i/6, i%6, button);
 				button.addClickHandler(
 					new RadioGroupHandler(button, symbolButtons,
