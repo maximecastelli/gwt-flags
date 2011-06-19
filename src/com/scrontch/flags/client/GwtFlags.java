@@ -53,8 +53,7 @@ public class GwtFlags implements EntryPoint {
 	private Button closeButton = new Button("Close");
 	private HTML serverResponseLabel = new HTML();
 	
-	private HTML flagWidget = new HTML("<p>[This App requires a browser which supports inline SVG]</p>");
-	//private HTML flagLink = new HTML("");
+	private HTML flagWidget = new HTML();
 	private FlagInfo flagInfo = new FlagInfo();
 	private List<ToggleButton> divisionButtons = new ArrayList<ToggleButton>();
 	private List<ToggleButton> color1Buttons = new ArrayList<ToggleButton>();
@@ -111,12 +110,6 @@ public class GwtFlags implements EntryPoint {
 					flagInfo = flagData.flagInfo;
 					//updateButtons();
        				flagWidget.setHTML(flagData.svgString);
-/*       				
-       				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
-       						 + flagData.flagInfo.getQueryString()
-       						 + "\">Download as [.svg]</a>"
-       						);
-*/       						
        				//System.out.println("sucess.");
     				sendButton.setEnabled(true);
     				sendButton.setFocus(true);
@@ -149,12 +142,6 @@ public class GwtFlags implements EntryPoint {
 					flagInfo = flagData.flagInfo;
 					updateButtons();
        				flagWidget.setHTML(flagData.svgString);
-/*       				
-       				flagLink.setHTML("<a href=\"/gwtflags/SvgFileService?"
-       						 + flagData.flagInfo.getQueryString()
-       						 + "\">Download as [.svg]</a>"
-       						);
-*/       						
        				//System.out.println("sucess.");
     				sendButton.setEnabled(true);
     				sendButton.setFocus(true);
@@ -231,8 +218,7 @@ public class GwtFlags implements EntryPoint {
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("flagContainer").add(flagWidget);
-//		RootPanel.get("flagLink").add(flagLink);
-		RootPanel.get("flagLink").add(downloadButton);
+		RootPanel.get("downloadButtonContainer").add(downloadButton);
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
 		RootPanel.get("leftPanel").add(verticalPanel);
