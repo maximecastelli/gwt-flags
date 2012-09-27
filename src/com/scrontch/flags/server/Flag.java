@@ -292,8 +292,8 @@ public class Flag {
 		colors.add(new FlagColor("blue", "#00335b"));
 		colors.add(new FlagColor("green", "#006b3f"));
 		colors.add(new FlagColor("yellow", "#fcd116"));
-		colors.add(new FlagColor("orange", "#ff8400"));
-		colors.add(new FlagColor("lightblue", "#3a75c4"));
+		colors.add(new FlagColor("orange", "#ff8430"));
+		colors.add(new FlagColor("lightblue", "#75aadb"));
 		
 		//Symbols
 		fsNone = new FlagSymbol("none", "", 0, 0, 0, 0);
