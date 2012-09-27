@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.0" x="0" y="0" width="360" height="240">
+  <rect width="360" height="240" x="0" y="0" fill="#006b3f" />
+  <rect width="40" height="40" x="40" y="0" fill="#fcd116" />
+  <rect width="40" height="40" x="120" y="0" fill="#fcd116" />
+  <rect width="40" height="40" x="200" y="0" fill="#fcd116" />
+  <rect width="40" height="40" x="280" y="0" fill="#fcd116" />
+  <rect width="40" height="40" x="0" y="40" fill="#fcd116" />
+  <rect width="40" height="40" x="80" y="40" fill="#fcd116" />
+  <rect width="40" height="40" x="160" y="40" fill="#fcd116" />
+  <rect width="40" height="40" x="240" y="40" fill="#fcd116" />
+  <rect width="40" height="40" x="320" y="40" fill="#fcd116" />
+  <rect width="40" height="40" x="40" y="80" fill="#fcd116" />
+  <rect width="40" height="40" x="120" y="80" fill="#fcd116" />
+  <rect width="40" height="40" x="200" y="80" fill="#fcd116" />
+  <rect width="40" height="40" x="280" y="80" fill="#fcd116" />
+  <rect width="40" height="40" x="0" y="120" fill="#fcd116" />
+  <rect width="40" height="40" x="80" y="120" fill="#fcd116" />
+  <rect width="40" height="40" x="160" y="120" fill="#fcd116" />
+  <rect width="40" height="40" x="240" y="120" fill="#fcd116" />
+  <rect width="40" height="40" x="320" y="120" fill="#fcd116" />
+  <rect width="40" height="40" x="40" y="160" fill="#fcd116" />
+  <rect width="40" height="40" x="120" y="160" fill="#fcd116" />
+  <rect width="40" height="40" x="200" y="160" fill="#fcd116" />
+  <rect width="40" height="40" x="280" y="160" fill="#fcd116" />
+  <rect width="40" height="40" x="0" y="200" fill="#fcd116" />
+  <rect width="40" height="40" x="80" y="200" fill="#fcd116" />
+  <rect width="40" height="40" x="160" y="200" fill="#fcd116" />
+  <rect width="40" height="40" x="240" y="200" fill="#fcd116" />
+  <rect width="40" height="40" x="320" y="200" fill="#fcd116" />
+</svg>
