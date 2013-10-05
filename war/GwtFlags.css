@@ -51,10 +51,10 @@ p {
 
 .color-button {
   height: 16px;
-  width: 24px;
+  width: 28px;
   background-image: none;
   background-color: #777;
-  margin: 1px;
+  margin: 2px;
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   border-right: 1px solid #aaa;
@@ -64,21 +64,21 @@ p {
 }
 .color-button-up-hovering
 {
-  border-top: 1px solid #888;
-  border-left: 1px solid #888;
-  border-right: 1px solid #666;
-  border-bottom: 1px solid #666;
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #444;
+  border-bottom: 1px solid #444;
   cursor: pointer;
 }
 .color-button-down, .color-button-down-hovering
 {
   height: 16px;
-  width: 24px;
+  width: 28px;
   margin: 0px;
-  border-top: 2px solid #888;
-  border-left: 2px solid #888;
-  border-right: 2px solid #666;
-  border-bottom: 2px solid #666;
+  border-top: 3px solid #aaa;
+  border-left: 3px solid #aaa;
+  border-right: 3px solid #444;
+  border-bottom: 3px solid #444;
 }
 
 .sendButton {
