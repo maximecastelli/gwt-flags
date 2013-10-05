@@ -206,10 +206,12 @@ public class GwtFlags implements EntryPoint {
 		        "#ffffff",
 		        "#ce1126",
 		        "#00335b",
-		        "#006b3f",
+		        "#108042",
 		        "#fcd116",
 		        "#ff8430",
 		        "#75aadb"
+//		        "#8b008b",
+//		        "#48d688"
 			};
 		
 		// We can add style names to widgets
