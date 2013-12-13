@@ -1,0 +1,36 @@
+
+----------------------------------------
+C:\Python27>python virtualenv.py gwtflags
+New python executable in gwtflags\Scripts\python.exe
+Installing setuptools.......................................done.
+Installing pip...................done.
+
+----------------------------------------
+D:\Projects\GwtFlags>PYTHON_ENV.BAT
+
+D:\Projects\GwtFlags>REM Activates the gwtflags virtualenv environment.
+
+D:\Projects\GwtFlags>CALL "C:\Python27\gwtflags\Scripts\activate.bat"
+
+(gwtflags) D:\Projects\GwtFlags>
+(gwtflags) D:\Projects\GwtFlags>pip install pysvg
+Downloading/unpacking pysvg
+  Downloading pysvg-0.2.2.zip (623Kb): 623Kb downloaded
+  Running setup.py egg_info for package pysvg
+
+    warning: no files found matching '*.txt' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+Installing collected packages: pysvg
+  Running setup.py install for pysvg
+
+    warning: no files found matching '*.txt' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+    warning: no files found matching '*.*' under directory 'docs'
+Successfully installed pysvg
+Cleaning up...
+
