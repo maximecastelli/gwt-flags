@@ -1,12 +1,26 @@
 package com.scrontch.flags.server;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.HashSet; 
+import java.util.Scanner;
+
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 import com.scrontch.flags.client.FlagInfo;
 
@@ -27,12 +41,78 @@ public class Flag {
 	public static List<FlagSymbol> symbols = new ArrayList<FlagSymbol>();
 	public static FlagDivision fdSolid;
 	public static FlagOverlay foNone;
-	public static FlagSymbol fsNone;
 
 	static Map<FlagDivision, Double> division_weight_sums = new HashMap<FlagDivision, Double>();
 
 	static double division_weight_sum = 0;
 	static Map<FlagOverlay, Double> overlay_weights = new HashMap<FlagOverlay, Double>();
+
+	public static void addSymbolsFromFile(List<FlagSymbol> symbols, String filename) throws IOException, XMLStreamException {
+		File file = new File(filename);
+		Scanner scanner = new Scanner(file);
+		String xmlString = scanner.useDelimiter("\\Z").next();
+		byte[] xmlDATA =  xmlString.getBytes();
+		scanner.close();
+		ByteArrayInputStream in = new ByteArrayInputStream(xmlDATA);
+		
+		XMLInputFactory f = XMLInputFactory.newInstance();
+		XMLEventReader r = f.createXMLEventReader(in);
+		int startOffset = 0;
+
+		FlagSymbol flagSymbol = null;
+
+		while(r.hasNext()) {
+			XMLEvent e = r.nextEvent();
+
+			if (e.isStartElement())
+			{
+				StartElement startElement = e.asStartElement();
+				
+				if (startElement.getName().getLocalPart() == "symbol")
+				{
+					flagSymbol = new FlagSymbol();
+
+					Iterator<Attribute> attributes = startElement.getAttributes();
+					while (attributes.hasNext()) {
+						Attribute attribute = attributes.next();
+						if (attribute.getName().toString().equals("name")) {
+							flagSymbol.name = attribute.getValue();
+						}
+						if (attribute.getName().toString().equals("width")) {
+							flagSymbol.width = Integer.parseInt( attribute.getValue().toString() );
+						}
+						if (attribute.getName().toString().equals("height")) {
+							flagSymbol.height = Integer.parseInt( attribute.getValue().toString() );
+						}
+						if (attribute.getName().toString().equals("centerx")) {
+							flagSymbol.centerX = Integer.parseInt( attribute.getValue().toString() );
+						}
+						if (attribute.getName().toString().equals("centery")) {
+							flagSymbol.centerY = Integer.parseInt( attribute.getValue().toString() );
+						}
+					}
+				}
+
+				if (startElement.getName().getLocalPart() == "svg")
+				{
+					startOffset = startElement.getLocation().getCharacterOffset();
+				}
+			}
+
+			if (e.isEndElement())
+			{
+				EndElement endElement = e.asEndElement();
+				if (endElement.getName().getLocalPart() == "svg")
+				{
+					int endOffset = endElement.getLocation().getCharacterOffset() - "<\\svg>".length();
+					String svg = new String(Arrays.copyOfRange(xmlDATA, startOffset, endOffset));
+					flagSymbol.svg = svg;
+					//System.out.println(svg);
+					symbols.add(flagSymbol);
+				}			
+			}
+		}
+	}
 
 	//Static initialization block
 	static {
@@ -298,8 +378,17 @@ public class Flag {
 //		colors.add(new FlagColor("lightseagreen", "#48d688"));
 		
 		//Symbols
-		fsNone = new FlagSymbol("none", "", 0, 0, 0, 0);
-		symbols.add(fsNone);
+		symbols.add(FlagSymbol.NONE);
+		try {
+			addSymbolsFromFile(symbols, "symbols.xml");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+/*
 		symbols.add(new FlagSymbol("five-pointed-star",
 				"<polygon style=\"fill:%1$s;stroke:#000;stroke-width:4\" points=\"125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90\"/>",
 				250, 235, 
@@ -354,7 +443,8 @@ public class Flag {
 				"<use transform=\"matrix(-1,0,0,1,220.31844,-2.1921088e-6)\" id=\"Sword-trang-2\" x=\"0\" y=\"0\" width=\"301\" height=\"805.92999\" xlink:href=\"#Sword-trang\" /> <g transform=\"matrix(0.292869,-0.273105,-0.273105,-0.292869,192.41822,350.77341)\" id=\"Sword-trang\" style=\"fill:%1$s;stroke:#000;stroke-width:4\"> <path d=\"M 254.81293,227.21933 C 265.02722,185.61219 277.95578,185.61219 287.67007,227.21933 C 297.38436,268.82647 300.38436,320.04076 289.67007,361.6479 C 278.95578,403.25504 261.52722,403.25504 250.81293,361.6479 C 240.09864,320.04076 244.59864,268.82647 254.81293,227.21933 z\" id=\"path6679\" /> <path d=\"M 250.00148,371.74275 L 291.09286,371.74273 L 285.13975,897.26199 L 270.54697,942.69037 L 255.95424,897.262 L 250.00148,371.74275 z\" id=\"path6681\" /> <path d=\"M 268.89157,376.48534 L 270.54698,938.18018 L 272.20277,376.48534 L 268.89157,376.48534 z\" id=\"path6683\" style=\"fill:#000;stroke:none\" /> <rect width=\"161.86885\" height=\"21.377804\" x=\"189.61275\" y=\"358.07336\" id=\"rect6685\" /> <path d=\"M 299.33652,233.12339 C 299.34245,249.0275 286.45128,261.92347 270.54718,261.92347 C 254.64307,261.92347 241.7519,249.0275 241.75783,233.12339 C 241.7519,217.21928 254.64307,204.32331 270.54718,204.32331 C 286.45128,204.32331 299.34245,217.21928 299.33652,233.12339 L 299.33652,233.12339 z\" id=\"path6687\" /> <path d=\"M 282.69807,233.12339 C 282.7006,239.83592 277.25972,245.27885 270.54717,245.27885 C 263.83464,245.27885 258.39376,239.83592 258.39628,233.12339 C 258.39376,226.41085 263.83464,220.96792 270.54717,220.96792 C 277.25972,220.96792 282.7006,226.41085 282.69807,233.12339 L 282.69807,233.12339 z\" id=\"path6689\" /> </g>",
 				260, 260, 
 				110, 115 
-		));		
+		));
+*/
 	}
 
 	public static FlagDivision getRandomDivision() {
@@ -394,7 +484,7 @@ public class Flag {
 			if (rand.nextDouble() < overlay.symbolProbability)
 				return symbols.get(rand.nextInt(symbols.size()-1)+1);
 		}
-		return fsNone;
+		return FlagSymbol.NONE;
 	}
 
 	public static FlagColor getRandomColor(List<FlagColor> colors) {
@@ -414,7 +504,7 @@ public class Flag {
 			flag.color4 = colors.get(rand.nextInt(colors.size()));
 			
 		    List<FlagColor> colors_for_symbol = new ArrayList<FlagColor>(colors);
-		    if (flag.symbol != fsNone)
+		    if (flag.symbol != FlagSymbol.NONE)
 		    	colors_for_symbol.remove(flag.color4);
 			flag.color5 = getRandomColor(colors_for_symbol);
 		} while (flag.countDifferentColors() < 2);
@@ -433,7 +523,7 @@ public class Flag {
 			different_colors.add(color3);
 		if (overlay!=foNone)
 			different_colors.add(color4);
-		if (symbol!=fsNone)
+		if (symbol!=FlagSymbol.NONE)
 			different_colors.add(color5);
 		return different_colors.size();
 	}
@@ -444,7 +534,7 @@ public class Flag {
 		svgString += String.format(division.svg, color1.code, color2.code, color3.code);
 		if (overlay != foNone)
 			svgString += String.format(overlay.svg, color4.code);
-		if (symbol != fsNone) {
+		if (symbol != FlagSymbol.NONE) {
 			FlagSymbolAnchor target = overlay.anchors.get(0);
 			double scale = Math.min(target.width / symbol.width, target.height / symbol.height);
 
@@ -454,7 +544,7 @@ public class Flag {
 			svgString += String.format(Locale.US, "<g transform=\"scale(%1$f)\">\n", scale);
 			svgString += String.format(Locale.US, "<g transform=\"translate(%1$f,%2$f)\">\n",
 					-symbol.centerX, -symbol.centerY);
-			svgString += String.format(symbol.svg, color5.code);
+			svgString += String.format(symbol.svg, color5.code, "#000");
 			svgString += "</g>\n</g>\n</g>\n";
 		}
 		svgString +=  "</svg>\n";
