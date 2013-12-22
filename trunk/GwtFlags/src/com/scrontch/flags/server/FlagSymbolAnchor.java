@@ -1,10 +1,10 @@
 package com.scrontch.flags.server;
 
 public class FlagSymbolAnchor {
-	double width;
-	double height;
-	double centerX;
-	double centerY;
+	public double width;
+	public double height;
+	public double centerX;
+	public double centerY;
 
 	//Constructor
 	FlagSymbolAnchor(double width, double height, double centerX, double centerY) {

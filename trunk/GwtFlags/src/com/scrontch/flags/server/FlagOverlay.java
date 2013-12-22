@@ -4,11 +4,11 @@ package com.scrontch.flags.server;
 import java.util.ArrayList;
 
 public class FlagOverlay {
-	String name;
-	String svg;  //SVG source
+	public String name;
+	public String svg;  //SVG source
 	double symbolProbability = 0;
 	ArrayList<FlagDivision> incompatible_divisions = new ArrayList<FlagDivision>();
-	ArrayList<FlagSymbolAnchor> anchors = new ArrayList<FlagSymbolAnchor>();
+	public ArrayList<FlagSymbolAnchor> anchors = new ArrayList<FlagSymbolAnchor>();
 
 	//Constructor
 	FlagOverlay(String name, String svg) {

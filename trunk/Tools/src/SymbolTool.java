@@ -1,72 +1,49 @@
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Arrays;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 
-import java.nio.file.*;
-
-//import com.scrontch.flags.server.FlagSymbol;
+import com.scrontch.flags.server.Flag;
+import com.scrontch.flags.server.FlagColor;
+import com.scrontch.flags.server.FlagSymbol;
 
 public class SymbolTool {
 
 	public static void main(String[] args) throws IOException, XMLStreamException {
-		System.out.println ("Hello World!");
+		System.out.println("SymbolTool. Read symbol data from XML file and generate SVG files.");
 
-		String yourXMLAsString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>"
-+ "<symbols> <symbol id=\"2\" name=\"eagle\" width=\"360\" height=\"240\" centerx=\"0\" centery=\"0\">"
-+ "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.0\" x=\"0\" y=\"0\" width=\"360\" height=\"240\">"
-+ "<rect width=\"360\" height=\"240\" x=\"0\" y=\"0\" fill=\"#cccccc\" />"
-+ "</svg> </symbol> </symbols>";
+		List<FlagSymbol> symbols = new ArrayList<FlagSymbol>();
+		symbols.add(FlagSymbol.NONE);
+		Flag.addSymbolsFromFile(symbols, "../GwtFlags/war/symbols.xml");
 
-//		byte[] xmlDATA = yourXMLAsString.getBytes();
-		
-		Path file = Paths.get("../gfx/symbols/symbols.xml");
-		byte[] xmlDATA =  Files.readAllBytes(file);		
-		
-		ByteArrayInputStream in = new ByteArrayInputStream(xmlDATA);
-		
-		XMLInputFactory f = XMLInputFactory.newInstance();
-		XMLEventReader r = f.createXMLEventReader(in);
-		int startOffset = 0;
-		
-		while(r.hasNext()) {
-			XMLEvent e = r.nextEvent();
-
-			if (e.isStartElement())
-			{
-				StartElement startElement = e.asStartElement();
-				if (startElement.getName().getLocalPart() == "symbol")
-				{
-					startOffset = startElement.getLocation().getCharacterOffset();
-					Iterator<Attribute> attributes = startElement.getAttributes();
-					while (attributes.hasNext()) {
-						Attribute attribute = attributes.next();
-						if (attribute.getName().toString().equals("id")) {
-//							item.setDate(attribute.getValue();
-						}
-					}
-				}
-			}
-
-			if (e.isEndElement())
-			{
-				EndElement endElement = e.asEndElement();
-				if (endElement.getName().getLocalPart() == "svg")
-				{
-					int endOffset = endElement.getLocation().getCharacterOffset();
-					String s = new String(Arrays.copyOfRange(xmlDATA, startOffset, endOffset));
-					System.out.println(s);
-				}			
-			}
-		}		
+		Integer i=0;
+	    for (Iterator<FlagSymbol> iter = symbols.iterator(); iter.hasNext(); )
+	    {
+	    	FlagSymbol flagSymbol = iter.next();
+	    	System.out.println(i.toString() + ": " + flagSymbol.name);
+	    	
+	    	Flag flag = new Flag();
+	    	flag.division = Flag.fdSolid;
+	    	flag.color1 = new FlagColor("lightgray", "#ccc");
+	    	flag.color2 = new FlagColor("dummy", "#000");
+	    	flag.color3 = new FlagColor("dummy", "#000");
+	    	flag.overlay = Flag.foNone;
+	    	flag.symbol = flagSymbol;
+	    	flag.color5 = new FlagColor("darkgray", "#444");
+	    	
+	    	String svgString = flag.getSvgString();
+	    	
+	    	PrintWriter out = new PrintWriter("sym" + i.toString() + ".svg");
+	    	out.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+	    	out.println("<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.0//EN\" \"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd\">");
+	    	out.println(svgString);
+	    	out.close();
+	    	
+	    	i++;
+	    }
 	}
 
 }

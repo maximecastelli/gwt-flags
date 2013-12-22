@@ -2,9 +2,9 @@ package com.scrontch.flags.server;
 
 
 public class FlagDivision {
-	String name;
-	String svg;  //SVG source
-	int usedColors;
+	public String name;
+	public String svg;  //SVG source
+	public int usedColors;
 
 	//Constructor
 	FlagDivision(String name, String svg, int usedColors) {
