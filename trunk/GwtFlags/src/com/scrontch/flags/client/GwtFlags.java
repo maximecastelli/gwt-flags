@@ -199,6 +199,12 @@ public class GwtFlags implements EntryPoint {
 			"images/sym9.png",
 			"images/sym10.png",
 			"images/sym11.png",
+			"images/sym12.png",
+			"images/sym13.png",
+			"images/sym14.png",
+			"images/sym15.png",
+			"images/sym16.png",
+			"images/sym17.png",
 		};
 		
 		final String[] color_codes = new String[] {
@@ -414,7 +420,7 @@ public class GwtFlags implements EntryPoint {
 		//--------------------------------------------------
 		// Symbols
 		{
-			Grid grid = new Grid(2, 6);
+			Grid grid = new Grid(symbol_icon_urls.length/6, 6);
 			verticalPanel.add(grid);
 		
 			for (int i=0; i<symbol_icon_urls.length; i++) {
